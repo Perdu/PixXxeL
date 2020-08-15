@@ -179,14 +179,14 @@ fermer_fichier macro nologique
 mov ah,3eh
 mov bx,nologique
 int 21h
-JC AffERR	
-	
+;JC AffERR ; for some reason, jwasm fails to find the AffERR symbol here (but finds it 5 lines above!)
+
 endm
 
 copier_fichier macro temp_fichier1, no_logique_fichier1, no_logique_fichier2
-	
+
 	fermer_fichier no_logique_fichier1 ; Pourquoi faire ça ? Parce que DOSBox a une manière bizarre de fonctionner au niveau des fichiers : il doit travailler sur des copies ou un
-	ouvrir_fichier temp_fichier1 no_logique_fichier1 ; truc dans le genre. Du coup tant qu'on n'a pas fermé un fichier, on ne peut pas lire ce qu'on vient de mettre dedans.
+	ouvrir_fichier temp_fichier1, no_logique_fichier1 ; truc dans le genre. Du coup tant qu'on n'a pas fermé un fichier, on ne peut pas lire ce qu'on vient de mettre dedans.
 							; Donc on le ferme et on le rouvre.
 lea dx,temp_copie
 mov ax,3F00H
@@ -1987,7 +1987,7 @@ JE tir
 cmp al,73H
 JE tir
 cmp al,70H
-JE pause
+JE pause2
 cmp al,64H
 JE tir
 cmp al,74H
@@ -2494,7 +2494,7 @@ JMP cmp_mvt
 ;/
 ;
 
-pause :
+pause2 :
 texte "    pause    ",4,1,18
 
 
@@ -2504,7 +2504,7 @@ int 21h
 cmp al,1BH
 JE fin
 cmp al,70h
-JNE pause
+JNE pause2
 
 efface_barre
 
@@ -2563,7 +2563,7 @@ pause_dosbox :	;DOSBox autorise l'int 15h fonction 86h (contrairement à Windows 
 ;comment /
 mov ah,86h
 mov cx,0
-mov dx,100000
+mov dx,50000
 int 15h
 ;/
 
@@ -5438,28 +5438,28 @@ CALL personnage
 
 
 
-placer_bombe 0098 0141
+placer_bombe 0098, 0141
 
-placer_bombe 0124 0141
+placer_bombe 0124, 0141
 
-placer_bombe 0145 0141
+placer_bombe 0145, 0141
 
-placer_bombe 0169 0141
+placer_bombe 0169, 0141
 
-placer_bombe 0192 0142
+placer_bombe 0192, 0142
 
 mov nb_bombes,0005
 mov sp_bombes,sp
 
-placer_munits 0117 0077
+placer_munits 0117, 0077
 
-placer_munits 0173 0077
+placer_munits 0173, 0077
 
-placer_munits 0166 0170
+placer_munits 0166, 0170
 
-placer_munits 0177 0169
+placer_munits 0177, 0169
 
-placer_munits 0191 0170
+placer_munits 0191, 0170
 
 mov nb_munits,0005
 mov sp_munits,sp
@@ -6734,15 +6734,15 @@ CALL personnage
 
 
 
-placer_bombe 0018 0137
+placer_bombe 0018, 0137
 
-placer_bombe 0060 0134
+placer_bombe 0060, 0134
 
-placer_bombe 0081 0093
+placer_bombe 0081, 0093
 
-placer_bombe 0103 0112
+placer_bombe 0103, 0112
 
-placer_bombe 00131 0093
+placer_bombe 00131, 0093
 
 mov nb_bombes,0005
 mov sp_bombes,sp
@@ -8372,7 +8372,6 @@ int 10h
 	
 		JMP compschg
 		
-		
 	fin_chg_coul_vaiss :
 	
 	push ax
@@ -8381,7 +8380,7 @@ int 10h
 		LEA DX, temp_couleurs; création de fichier
 		MOV CX,0
 		INT 21H
-		JC AffERR
+		;JC AffERR
 		mov num_logique_couleurs,ax
 			
 					MOV AH, 3DH
@@ -8389,7 +8388,7 @@ int 10h
 		LEA DX, temp_couleurs
 		INT 21H
 		mov num_logique_couleurs,ax					;ouverture des fichiers
-		JC AffERR		
+		;JC AffERR
 	
 lea dx,couleur_vaisseau
 mov ah,40h
@@ -9041,8 +9040,9 @@ Editeur_de_niveaux proc
 		mov num_logique_coeurs,ax	
 		
 		JMP end_AffERR
-	
-AffERR:	mov dl,al
+
+AffERR :
+	mov dl,al
 		ADD dl,30h
 		MOV AH,2
  		INT 21H	
@@ -9815,9 +9815,9 @@ texte_fichier <0dh,"mov sp_bombes,sp">
 
 ;;;;
 
-copier_fichier temp_bombes num_logique_bombes num_logique
-copier_fichier temp_munits num_logique_munits num_logique
-copier_fichier temp_coeurs num_logique_coeurs num_logique
+copier_fichier temp_bombes, num_logique_bombes, num_logique
+copier_fichier temp_munits, num_logique_munits, num_logique
+copier_fichier temp_coeurs, num_logique_coeurs, num_logique
 
 texte_fichier <saut_ligne,"mov stock_bombes,">
 
