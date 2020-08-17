@@ -3,6 +3,8 @@ A game entirely written in x86 asm.
 
 Visualize with tab size set to 4.
 
+![Screenshot of level 1](level1.png)
+
 # Run
 
 This is coded in a binary format only recognized by Windows up to Windows XP, so you need an emulator. Fortunately, DOSBox works perfectly and all you need to do is:
@@ -20,3 +22,5 @@ The project was originally assembled with RadAsm on Windows.
 # Notes
 
 Coded in 2009-2010 by Célestin Matte. This was a 2nd-year bachelor student project.
+
+More screenshots: https://ploudseeker.com/pixxxel/
