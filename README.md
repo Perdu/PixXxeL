@@ -5,17 +5,17 @@ Visualize with tab size set to 4.
 
 # Run
 
+This is coded in a binary format only recognized by Windows up to Windows XP, so you need an emulator. Fortunately, DOSBox works perfectly and all you need to do is:
+
 ```bash
 dosbox pixel.com
 ```
 
 # Recompile / reassemble
 
-This program is written in MASM 8086 assembly. You need a MASM-compatible assembler to "recompile" (assemble) it, which is quite difficult to find nowadays.
+This program is written in MASM 8086 assembly. You need a MASM-compatible assembler to "recompile" (assemble) it, and this is quite difficult to find nowadays, at least on linux. I tested jwasm, but it did not produce a usable executable.
 
 The project was originally assembled with RadAsm on Windows.
-
-It seems difficult to recompile it nowadays, at least on linux. I tested jwasm, but it did not produce a usable executable.
 
 # Notes
 
